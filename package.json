@@ -5,12 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc --project tsconfig.server.json && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "tsx watch server/index.ts",
     "start": "node dist/server/index.js",
-    "postinstall": "tsc --project tsconfig.server.json"
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "@types/cors": "^2.8.17",
