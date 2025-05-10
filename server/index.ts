@@ -6,7 +6,7 @@ import xssClean from 'xss-clean';
 import rateLimit from 'express-rate-limit';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import authRoutes from './routes/auth';
+import authRoutes from './routes/auth.js';
 import petRoutes from './routes/pets';
 import adoptionRoutes from './routes/adoptions';
 import contactRoutes from './routes/contact';
