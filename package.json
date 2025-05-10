@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "server": "tsx watch server/index.ts",
     "start": "node dist/server/index.js",
-    "postinstall": "tsc"
+    "postinstall": "tsc --project tsconfig.server.json"
   },
   "dependencies": {
     "@types/cors": "^2.8.17",
