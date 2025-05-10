@@ -1,4 +1,3 @@
-import React from 'react';
 import { Heart, Users, Gift } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,9 +5,7 @@ function Donate() {
   const navigate = useNavigate();
 
   const handleDonateClick = (type: string) => {
-    
     console.log(`Initiating ${type} donation`);
-    
     alert(`Thank you for ${type.toLowerCase()}!  But this is just for uni assignment.`);
   };
 

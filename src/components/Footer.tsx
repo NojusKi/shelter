@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Footer(){
@@ -31,7 +30,6 @@ function Footer(){
                         <p>&copy;2025 Shelter by Nojus Kisieliauskas.</p>
                     </div>
                 </div>
-
         </footer>
     );
 }

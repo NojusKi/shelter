@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User } from 'lucide-react';
-import { auth } from '../lib/api'; // Assuming the `adoptions` import is removed
+import { auth } from '../lib/api';
 import toast from 'react-hot-toast';
 
 const Profile: React.FC = () => {
@@ -47,7 +47,7 @@ const Profile: React.FC = () => {
         ...(formData.newPassword && { newPassword: formData.newPassword })
       };
 
-      const response = await auth.updateProfile(updateData);
+      await auth.updateProfile(updateData);
       
       // Update local storage with new user data
       localStorage.setItem('user', JSON.stringify({
