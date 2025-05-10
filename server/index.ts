@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import xssClean from 'xss-clean';
 import rateLimit from 'express-rate-limit';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth';
 import petRoutes from './routes/pets';
 import adoptionRoutes from './routes/adoptions';
@@ -13,6 +15,8 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
@@ -21,7 +25,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(helmet())
+app.use(helmet());
 app.use(xssClean());
 if (process.env.NODE_ENV !== 'development') {
   app.use(rateLimit({
@@ -30,41 +34,38 @@ if (process.env.NODE_ENV !== 'development') {
   }));
 }
 
-//body parser with limit
 app.use(express.json({ limit: '10kb'}));
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../../dist')));
+
+// API routes
+app.use('/api/auth', authRoutes);
+app.use('/api/pets', petRoutes);
+app.use('/api/adoptions', adoptionRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// routes
-app.use('/api/auth', authRoutes);
-app.use('/api/pets', petRoutes);
-app.use('/api/adoptions', adoptionRoutes);
-app.use('/api/contact', contactRoutes);
-
-//gkobal error handling
-app.use((err: any, req: express.Request, res: express.Response, next:
-  express.NextFunction) => {
-    console.error('Error:',err.stack);
-
-    const errorResponse = {
-      status: 'error',
-      message: err.message || "internal server error",
-      ...(process.env.NODE_ENV === 'development' && {stack: err.stack})
-    };
-    res.status(err.status|| 500).json(errorResponse);
-  });
-
-//unhandled routes
-app.all('*', (req, res) => {
-  res.status(404).json({
-    status: 'error',
-    message: `Cannot find ${req.originalUrl} on this server!`,
-  });
+// Handle React routing, return all requests to React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../dist/index.html'));
 });
 
+// Global error handling
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('Error:', err.stack);
+
+  const errorResponse = {
+    status: 'error',
+    message: err.message || "internal server error",
+    ...(process.env.NODE_ENV === 'development' && {stack: err.stack})
+  };
+  res.status(err.status || 500).json(errorResponse);
+});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
