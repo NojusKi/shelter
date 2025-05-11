@@ -7,9 +7,9 @@ import rateLimit from 'express-rate-limit';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js';
-import petRoutes from './routes/pets';
-import adoptionRoutes from './routes/adoptions';
-import contactRoutes from './routes/contact';
+import petRoutes from './routes/pets.js';
+import adoptionRoutes from './routes/adoptions.js';
+import contactRoutes from './routes/contact.js';
 
 dotenv.config();
 
@@ -37,7 +37,7 @@ if (process.env.NODE_ENV !== 'development') {
 app.use(express.json({ limit: '10kb'}));
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../../dist')));
+app.use(express.static(path.join(__dirname, '../../dist/client')));
 
 // API routes
 app.use('/api/auth', authRoutes);
@@ -52,7 +52,7 @@ app.get('/api/health', (req, res) => {
 
 // Handle React routing, return all requests to React app
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../dist/index.html'));
+  res.sendFile(path.join(__dirname, '../../dist/client/index.html'));
 });
 
 // Global error handling
