@@ -1,8 +1,8 @@
 import express from 'express';
-import pool from '../config/database.js';
+import pool from '../config/database';
 import { z } from 'zod';
-import { authenticateToken } from './auth.js';
-import { checkRole } from '../middleware/checkRole.js';
+import { authenticateToken } from './auth';
+import { checkRole } from '../middleware/checkRole';
 
 const router = express.Router();
 
