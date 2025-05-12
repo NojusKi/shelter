@@ -39,6 +39,9 @@ app.use(express.json({ limit: '10kb'}));
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../../dist/client')));
 
+// Serve static files, including pet-tips.json
+app.use('/api', express.static(path.join(__dirname, '../public')));
+
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/pets', petRoutes);

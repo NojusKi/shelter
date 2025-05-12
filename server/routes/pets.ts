@@ -21,6 +21,7 @@ const petSchema = z.object({
 // Get all pets
 router.get('/', async (req, res) => {
     try {
+        console.log('Fetching all pets from the database...');
         const [pets] = await pool.execute(
             `SELECT p.*, 
             COALESCE(
@@ -32,6 +33,7 @@ router.get('/', async (req, res) => {
            FROM pets p 
            ORDER BY p.created_at DESC`  
         ) as any;
+        console.log('Fetched pets:', pets);
 
         res.json({
             success: true,
