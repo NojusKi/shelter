@@ -53,8 +53,8 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Handle React routing, return all requests to React app
-app.get('*', (req, res) => {
+// Handle React routing, return all requests to React app except API routes
+app.get(/^(?!\/api\/).*/, (req, res) => {
   res.sendFile(path.join(__dirname, '../../dist/client/index.html'));
 });
 
