@@ -209,7 +209,7 @@ function Adopt() {
     }
   };
 
-  const filteredAnimals = animals.filter(animal => {
+  const filteredAnimals = (animals || []).filter(animal => {
     const matchesType = animalType === 'all' || animal.type.toLowerCase() === animalType;
     const matchesSearch = animal.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          animal.breed.toLowerCase().includes(searchQuery.toLowerCase());
